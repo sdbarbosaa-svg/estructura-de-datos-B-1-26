@@ -1,2 +1,2 @@
-# estructura-de-datos-B-1-26
+# estructura-de-datos
 Repositorio para guardar los proyectos realizados en clases.
