@@ -1,0 +1,22 @@
+.main-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#111;
+padding:15px 30px;
+}
+
+.main-header h1{
+color:white;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+margin-left:15px;
+font-weight:bold;
+}
+
+.menu a:hover{
+color:#ff4d6d;
+}
