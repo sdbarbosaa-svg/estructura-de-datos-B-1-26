@@ -1,14 +1,20 @@
 <template>
-  <!-- Barra superior -->
-    <SidebarComponent />
+  <SidebarComponent />
   <div class="flex-grow-1 p-4 bg-light">
     <h2>Productos</h2>
     <button class="btn btn-success mb-3" @click="$router.push('/products/new')">Nuevo</button>
     <div v-if="error" class="alert alert-danger">{{ error }}</div>
     <div v-if="success" class="alert alert-success">{{ success }}</div>
 
+    <!-- Búsqueda por título -->
+    <input
+      v-model="search"
+      class="form-control mb-3"
+      placeholder="Buscar por nombre..."
+    />
+
     <ProductTable
-      :products="products"
+      :products="filteredProducts"
       @edit="goEdit"
       @delete="handleDelete"
     />
@@ -21,7 +27,7 @@
 
 <script>
 import SidebarComponent from '@/components/SidebarComponent.vue';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import productService from '@/services/productService'
 import ProductTable from '@/components/ProductTable.vue'
 import { useRouter } from 'vue-router'
@@ -32,7 +38,14 @@ export default {
     const products = ref([])
     const error = ref(null)
     const success = ref(null)
+    const search = ref('')
     const router = useRouter()
+
+    const filteredProducts = computed(() =>
+      products.value.filter(p =>
+        (p.name ?? p.title ?? '').toLowerCase().includes(search.value.toLowerCase())
+      )
+    )
 
     const load = async () => {
       error.value = null
@@ -68,7 +81,7 @@ export default {
 
     onMounted(load)
 
-    return { products, error, success, goEdit, goCreate, handleDelete }
+    return { products, filteredProducts, search, error, success, goEdit, goCreate, handleDelete }
   }
 }
 </script>
